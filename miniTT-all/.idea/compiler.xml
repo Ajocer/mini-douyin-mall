@@ -6,9 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="miniTT-order" />
         <module name="miniTT-gateway" />
         <module name="miniTT-product" />
         <module name="miniTT-user" />
+        <module name="miniTT-checkout" />
+        <module name="miniTT-cart" />
+        <module name="miniTT-payment" />
       </profile>
     </annotationProcessing>
   </component>

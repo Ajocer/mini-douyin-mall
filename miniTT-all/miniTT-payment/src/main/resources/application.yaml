@@ -1,8 +1,8 @@
 server:
-  port: 10002
+  port: 10006
 spring:
   application:
-    name: miniTT-product
+    name: miniTT-payment
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/miniTT?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true

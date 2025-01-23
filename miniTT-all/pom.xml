@@ -12,6 +12,10 @@
         <module>miniTT-user</module>
         <module>miniTT-gateway</module>
         <module>miniTT-product</module>
+        <module>miniTT-cart</module>
+        <module>miniTT-order</module>
+        <module>miniTT-checkout</module>
+        <module>miniTT-payment</module>
     </modules>
 
     <properties>
