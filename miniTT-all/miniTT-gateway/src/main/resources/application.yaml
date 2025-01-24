@@ -12,3 +12,15 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: miniTT-user
+          uri: lb://miniTT-user/api/miniTT/user/**
+          predicates:
+            - Path=/api/miniTT/user/**
+          filters:
+            - name: TokenValidate
+              args:
+                whitePathList:
+                  - /api/miniTT/user/v1/user/login
+                  - /api/miniTT/user/v1/user/has-username
