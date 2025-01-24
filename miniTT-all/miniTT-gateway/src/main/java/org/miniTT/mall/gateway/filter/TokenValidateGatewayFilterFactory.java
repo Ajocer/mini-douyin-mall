@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Mono;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 /**
  * SpringCloud Gateway Token 拦截器
@@ -39,14 +39,19 @@ public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFact
             String username = request.getHeaders().getFirst("username");
             String token = request.getHeaders().getFirst("token");
             Object userInfo;
-            if (StringUtils.hasText(username) && StringUtils.hasText(token) && (userInfo = stringRedisTemplate.opsForHash().get("short-link:login:" + username, token)) != null) {
+            if (StringUtils.hasText(username) && StringUtils.hasText(token) && (userInfo = stringRedisTemplate.opsForHash().get("miniTT:login:" + username, token)) != null) {
                 JSONObject userInfoJsonObject = JSON.parseObject(userInfo.toString());
                 ServerHttpRequest.Builder builder = exchange.getRequest().mutate().headers(httpHeaders -> {
                     httpHeaders.set("userId", userInfoJsonObject.getString("id"));
-                    httpHeaders.set("realName", URLEncoder.encode(userInfoJsonObject.getString("realName"), StandardCharsets.UTF_8));
+                    try {
+                        httpHeaders.set("realName", URLEncoder.encode(userInfoJsonObject.getString("realName"), "UTF-8")); // 修改此行
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
                 return chain.filter(exchange.mutate().request(builder.build()).build());
             }
+
             ServerHttpResponse response = exchange.getResponse();
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return response.writeWith(Mono.fromSupplier(() -> {
