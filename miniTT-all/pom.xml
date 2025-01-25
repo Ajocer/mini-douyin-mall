@@ -16,6 +16,7 @@
         <module>miniTT-order</module>
         <module>miniTT-checkout</module>
         <module>miniTT-payment</module>
+        <module>miniTT-common</module>
     </modules>
 
     <properties>

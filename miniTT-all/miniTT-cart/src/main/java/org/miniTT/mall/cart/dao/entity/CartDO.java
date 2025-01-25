@@ -2,8 +2,7 @@ package org.miniTT.mall.cart.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
-import org.miniTT.mall.cart.database.BaseDO;
-
+import org.miniTT.mall.common.convention.database.BaseDO;
 
 
 @Data
