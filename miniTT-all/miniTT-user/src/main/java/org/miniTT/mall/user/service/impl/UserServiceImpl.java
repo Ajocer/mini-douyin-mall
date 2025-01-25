@@ -27,9 +27,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             throw new ClientException("密码和确认密码不一致");
         }
 
-        UserDO userDO = new UserDO();
-        userDO.setEmail(req.getEmail());
-        userDO.setPasswordHashed(hashPassword(req.getPassword()));
+        UserDO userDO = UserDO.builder()
+                .email(req.getEmail())
+                .passwordHashed(hashPassword(req.getPassword()))
+                .build();
+
         int inserted = baseMapper.insert(userDO);
         if (inserted < 1) {
             throw new ClientException("注册失败");

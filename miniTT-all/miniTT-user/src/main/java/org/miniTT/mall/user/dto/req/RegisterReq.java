@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class RegisterReq {
-    /**
-     * 邮箱
-     */
+        /**
+         * 邮箱
+        */
         private String email;
 
         /**
