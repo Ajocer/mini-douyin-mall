@@ -24,8 +24,6 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
 
-//    @Autowired
-//    private UserMapper userMapper;
 
     @Autowired
     private SessionStore sessionStore; // 注入 SessionStore 实例
@@ -130,19 +128,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         // 获取请求中的新密码和确认密码
         String newPassword = req.getNewPassword();
         String confirmPassword = req.getConfirmPassword();
-        Long userId = req.getUserId();
+        String email = req.getEmail();
         if (newPassword == null || confirmPassword == null || !newPassword.equals(confirmPassword)) {
             throw new ClientException("新密码和确认密码不一致");
         }
 
         // 更新密码
-        UserDO userDO = baseMapper.selectById(userId);
+        UserDO userDO = baseMapper.selectByEmail(email);
         if (userDO == null) {
             throw new ClientException("用户不存在");
         }
 
         userDO.setPasswordHashed(hashPassword(newPassword));
-        int updated = baseMapper.updateById(userDO);
+        int updated = baseMapper.updateByEmail(userDO);
         if (updated < 1) {
             throw new ClientException("密码更新失败");
         }

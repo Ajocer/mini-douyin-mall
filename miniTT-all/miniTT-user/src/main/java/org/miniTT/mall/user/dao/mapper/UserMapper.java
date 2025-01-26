@@ -16,4 +16,24 @@ public interface UserMapper extends BaseMapper<UserDO> {
      */
     @Select("SELECT * FROM user WHERE email = #{email}")
     UserDO selectByEmail(String email);
+
+    /**
+     * 注册用户
+     * @param userDO 用户信息
+     * @return 影响行数
+     */
+    @Select("insert into user(email, password_hashed, created_at, updated_at) values(#{email}, #{password_hashed}, #{created_at}, #{updated_at})")
+    int insert(UserDO userDO);
+
+    /**
+     * 更新用户信息
+     * @param userDO 用户信息
+     * @return 影响行数
+     */
+    @Select("update user set password_hashed = #{password_hashed}, updated_at = #{updated_at} where email = #{email}")
+    int updateByEmail(UserDO userDO);
+
+
+
+
 }
