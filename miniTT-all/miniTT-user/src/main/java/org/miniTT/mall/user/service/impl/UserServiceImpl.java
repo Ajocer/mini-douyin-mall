@@ -1,5 +1,6 @@
 package org.miniTT.mall.user.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.miniTT.mall.common.convention.exception.ClientException;
 import org.miniTT.mall.user.dao.entity.UserDO;
@@ -80,15 +81,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             throw new ClientException("密码错误");
         }
 
-        // 生成会话令牌
-        String token = generateToken(userDO.getId());
-        sessionStore.addSession(userDO.getId(), token);
+        // 登录成功后生成会话令牌
+        StpUtil.login(userDO.getId());
+
+        // 获取会话令牌
+        String token = StpUtil.getTokenValue();
+
+/*        // 将会话令牌存储到 sessionStore 中
+        StpUtil.getSession().setToken(token);*/
 
         LoginResp resp = new LoginResp();
         resp.setUser_id(userDO.getId());
-        resp.setToken(token); // 假设登录成功后返回会话令牌
+        resp.setToken(token); // 设置会话令牌
         return resp;
     }
+
 
     @Override
     public LogoutResp logout(LogoutReq req) {
@@ -103,7 +110,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         }
 
         // 清除用户的会话信息
-        sessionStore.removeSession(req.getUserId());
+        StpUtil.logout(req.getUserId());
 
         LogoutResp resp = new LogoutResp();
         resp.setSuccess(true);
