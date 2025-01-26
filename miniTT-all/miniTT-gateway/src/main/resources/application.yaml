@@ -24,3 +24,10 @@ spring:
                 whitePathList:
                   - /api/miniTT/user/v1/user/login
                   - /api/miniTT/user/v1/user/has-username
+# 开启日志
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
