@@ -18,9 +18,11 @@ spring:
           uri: lb://miniTT-user/api/miniTT/user/**
           predicates:
             - Path=/api/miniTT/user/**
-          filters:
-            - name: TokenValidate
-              args:
-                whitePathList:
-                  - /api/miniTT/user/v1/user/login
-                  - /api/miniTT/user/v1/user/has-username
+
+# 开启日志
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
