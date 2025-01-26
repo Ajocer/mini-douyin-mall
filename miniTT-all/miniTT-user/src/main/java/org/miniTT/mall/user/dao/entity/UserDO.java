@@ -19,7 +19,6 @@ public class UserDO extends BaseDO {
     /**
      * 用户id
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 邮箱

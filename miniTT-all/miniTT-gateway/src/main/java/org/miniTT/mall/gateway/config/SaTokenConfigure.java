@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @author click33
  */
 @Configuration
+@Deprecated
 public class SaTokenConfigure {
     // 注册 Sa-Token全局过滤器 
     @Bean
