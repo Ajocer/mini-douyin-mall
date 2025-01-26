@@ -57,7 +57,7 @@ public class UserController {
      */
     @PutMapping("/api/miniTT/user/v1/password")
     public Result<Void> updatePassword(@RequestBody UpdatePasswordReq req) {
-        userService.updatePassword(req.getUserId(), req.getNewPassword(), req.getConfirmPassword());
+        userService.updatePassword(req);
         return Results.success();
     }
 }

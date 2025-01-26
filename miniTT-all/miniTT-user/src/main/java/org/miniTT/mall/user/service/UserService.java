@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.miniTT.mall.user.dao.entity.UserDO;
 import org.miniTT.mall.user.dto.req.LogoutReq;
 import org.miniTT.mall.user.dto.req.RegisterReq;
+import org.miniTT.mall.user.dto.req.UpdatePasswordReq;
 import org.miniTT.mall.user.dto.resp.LogoutResp;
 import org.miniTT.mall.user.dto.resp.RegisterResp;
 import org.miniTT.mall.user.dto.req.LoginReq;
@@ -26,5 +27,5 @@ public interface UserService extends IService<UserDO> {
 
 
     // 修改密码接口
-    void updatePassword(Long userId, String newPassword, String confirmPassword);
+    void updatePassword(UpdatePasswordReq req);
 }

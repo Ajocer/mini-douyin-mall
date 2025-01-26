@@ -6,6 +6,7 @@ import org.miniTT.mall.user.dao.entity.UserDO;
 import org.miniTT.mall.user.dao.mapper.UserMapper;
 import org.miniTT.mall.user.dto.req.LogoutReq;
 import org.miniTT.mall.user.dto.req.RegisterReq;
+import org.miniTT.mall.user.dto.req.UpdatePasswordReq;
 import org.miniTT.mall.user.dto.resp.LogoutResp;
 import org.miniTT.mall.user.dto.resp.RegisterResp;
 import org.miniTT.mall.user.dto.req.LoginReq;
@@ -118,7 +119,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updatePassword(Long userId, String newPassword, String confirmPassword) {
+    public void updatePassword(UpdatePasswordReq req) {
+        // 获取请求中的新密码和确认密码
+        String newPassword = req.getNewPassword();
+        String confirmPassword = req.getConfirmPassword();
+        Long userId = req.getUserId();
         if (newPassword == null || confirmPassword == null || !newPassword.equals(confirmPassword)) {
             throw new ClientException("新密码和确认密码不一致");
         }
