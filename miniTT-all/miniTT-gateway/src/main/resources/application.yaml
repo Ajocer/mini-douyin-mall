@@ -18,3 +18,11 @@ spring:
           uri: lb://miniTT-user/api/miniTT/user/**
           predicates:
             - Path=/api/miniTT/user/**
+
+# 开启日志
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
