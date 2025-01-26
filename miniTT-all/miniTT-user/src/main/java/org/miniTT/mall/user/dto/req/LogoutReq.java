@@ -12,4 +12,5 @@ public class LogoutReq {
      * token
      */
     private String token;
+
 }
