@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.miniTT.mall.common.convention.database.BaseDO;
 
+import java.util.Date;
+
 @Data
 @TableName("user")
 @Builder
@@ -30,4 +32,7 @@ public class UserDO extends BaseDO {
      */
     private String passwordHashed;
 
+    private Integer status;
+    private Date createTime;
+    private Date updateTime;
 }
