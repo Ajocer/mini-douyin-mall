@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -31,35 +32,54 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     // 注册
     public RegisterResp register(RegisterReq req) {
-        if (req == null) {
-            throw new ClientException("请求参数为空");
+        // 1. 基础参数校验
+        if (req == null || req.getEmail() == null || req.getPassword() == null) {
+            throw new ClientException("请求参数不完整");
         }
 
-        // 校验密码一致性
+        // 2. 校验邮箱格式
+        if (!isValidEmail(req.getEmail())) {
+            throw new ClientException("邮箱格式不正确");
+        }
+
+        // 3. 校验密码强度
+        if (req.getPassword().length() < 6) {
+            throw new ClientException("密码长度不能小于6位");
+        }
+
+        // 4. 校验密码一致性
         if (!req.getPassword().equals(req.getConfirm_password())) {
             throw new ClientException("密码和确认密码不一致");
         }
 
-        // 校验邮箱唯一性
+        // 5. 校验邮箱唯一性
         UserDO existingUser = this.lambdaQuery().eq(UserDO::getEmail, req.getEmail()).one();
         if (existingUser != null) {
             throw new ClientException("该邮箱已被注册");
         }
 
-        // 创建用户
+        // 6. 创建用户，添加更多基本信息
         UserDO userDO = UserDO.builder()
                 .email(req.getEmail())
                 .passwordHashed(hashPassword(req.getPassword()))
+                .status(1)  // 设置用户状态为有效
+                .createTime(new Date())  // 设置创建时间
+                .updateTime(new Date())  // 设置更新时间
                 .build();
 
-        int inserted = baseMapper.insert(userDO);
-        if (inserted < 1) {
-            throw new ClientException("注册失败");
-        }
+        try {
+            int inserted = baseMapper.insert(userDO);
+            if (inserted < 1) {
+                throw new ClientException("注册失败");
+            }
 
-        RegisterResp resp = new RegisterResp();
-        resp.setUser_id(userDO.getId());
-        return resp;
+            RegisterResp resp = new RegisterResp();
+            resp.setUser_id(userDO.getId());
+            return resp;
+        } catch (Exception e) {
+            log.error("用户注册失败", e);
+            throw new ClientException("注册失败：" + e.getMessage());
+        }
     }
 
     @Override
@@ -153,5 +173,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     private boolean checkPassword(String inputPassword, String storedPassword) {
         return storedPassword.equals(DigestUtils.md5DigestAsHex(inputPassword.getBytes()));
+    }
+
+    // 添加邮箱格式验证方法
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return email.matches(emailRegex);
     }
 }
