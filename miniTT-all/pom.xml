@@ -17,6 +17,7 @@
         <module>miniTT-checkout</module>
         <module>miniTT-payment</module>
         <module>miniTT-common</module>
+        <module>miniTT-auth</module>
     </modules>
 
     <properties>
@@ -34,6 +35,7 @@
         <redisson.version>3.27.2</redisson.version>
         <protobuf-java.version>3.15.3</protobuf-java.version>
         <protobuf-java-util.version>3.15.3</protobuf-java-util.version>
+        <satoken.version>1.39.0</satoken.version>
     </properties>
 
     <dependencies>
@@ -118,6 +120,7 @@
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
+            
 
         </dependencies>
     </dependencyManagement>

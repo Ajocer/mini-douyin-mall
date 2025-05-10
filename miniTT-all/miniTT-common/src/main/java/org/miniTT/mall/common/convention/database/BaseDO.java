@@ -14,11 +14,11 @@ public class BaseDO {
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
-    private Date created_at;
+    private Date createdAt;
 
     /**
      * 更新时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updated_at;
+    private Date updatedAt;
 }
